@@ -20,11 +20,13 @@ export default function CountrySelector({ value, handleOnChange, countries }) {
           id: "country-selector",
         }}
       >
-        {countries.map(({ Country, ISO2 }) => (
-          <option key={ISO2} value={ISO2.toLowerCase()}>
-            {Country}
-          </option>
-        ))}
+        {countries.map((country) => {
+          return (
+            <option value={country.ISO2.toLowerCase()}>
+              {country.Country}
+            </option>
+          );
+        })}
       </NativeSelect>
       <FormHelperText>Lựa chọn quốc gia</FormHelperText>
     </FormControl>
