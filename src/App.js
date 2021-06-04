@@ -6,36 +6,43 @@ import Summary from "./components/Summary";
 
 function App() {
   const [countries, setCountries] = useState([]);
-  const [selectedCountryId, setSelectedCountryId] = useState('');
+  const [selectedCountryId, setSelectedCountryId] = useState("");
   const [report, setReport] = useState([]);
 
   useEffect(() => {
     getCountries().then((res) => {
       setCountries(res.data);
+      setSelectedCountryId("vn");
     });
   }, []);
 
   const handleOnChange = (e) => {
     // set action when change selected country
-    selectedCountryId(e.target.value);
+    setSelectedCountryId(e.target.value);
   };
 
   useEffect(() => {
-    const { Slug } = countries.find(
-      (country) => country.ISO2.toLowerCase() === selectedCountryId
-    );
-    //call api
-    getReportByCountry(Slug).then((res)=>
-      console.log('getReportByCountry', {res})
-    );
+    if (selectedCountryId) {
+      const { Slug } = countries.find(
+        (country) => country.ISO2.toLowerCase() === selectedCountryId
+      );
+      //call api
+      getReportByCountry(Slug).then((res) => {
+        const a = res.data.pop();
+        setReport(res.data);
+      });
+    }
   }, [countries, selectedCountryId]);
-
 
   return (
     <>
-      <CountrySelector countries={countries} handleOnChange={handleOnChange} />
-      <Highlight />
-      <Summary />
+      <CountrySelector
+        countries={countries}
+        handleOnChange={handleOnChange}
+        value={selectedCountryId}
+      />
+      <Highlight report={report} />
+      <Summary report={report} />
     </>
   );
 }
