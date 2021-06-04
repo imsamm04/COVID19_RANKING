@@ -12,6 +12,7 @@ const useStyles = makeStyles({
   count: { fontWeight: "bold", fontSize: 18 },
 });
 
+
 export default function HighlightCard({ title, count, type }) {
   const classes = useStyles({ type });
   return (
