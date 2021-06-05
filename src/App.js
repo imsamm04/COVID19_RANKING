@@ -1,3 +1,4 @@
+import { Container, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { getCountries, getReportByCountry } from "./apis";
 import CountrySelector from "./components/CountrySelector";
@@ -35,15 +36,20 @@ function App() {
   }, [countries, selectedCountryId]);
 
   return (
-    <>
-      <CountrySelector
-        countries={countries}
-        handleOnChange={handleOnChange}
-        value={selectedCountryId}
-      />
-      <Highlight report={report} />
-      <Summary report={report} />
-    </>
+    <Container style={{ marginTop: 20 }}>
+      <>
+        <Typography variant="h6" component="h6">
+          COVID19-TRACKING <span>by viet.dinhduc</span>
+        </Typography>
+        <CountrySelector
+          countries={countries}
+          handleOnChange={handleOnChange}
+          value={selectedCountryId}
+        />
+        <Highlight report={report} />
+        <Summary countryId={selectedCountryId} report={report} />
+      </>
+    </Container>
   );
 }
 

@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
-import highchartsMap from "highcharts/modules/map";
-import { cloneDeep } from "lodash";
+import React, { useEffect, useRef, useState } from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import highchartsMap from 'highcharts/modules/map';
+import { cloneDeep } from 'lodash';
+
 // Load Highcharts modules
 highchartsMap(Highcharts);
 
 const initOptions = {
   chart: {
-    height: "500",
+    height: '500',
   },
   title: {
     text: null,
@@ -19,22 +20,22 @@ const initOptions = {
   colorAxis: {
     min: 0,
     stops: [
-      [0.2, "#FFC4AA"],
-      [0.4, "#FF8A66"],
-      [0.6, "#FF392B"],
-      [0.8, "#B71525"],
-      [1, "	#7A0826"],
+      [0.2, '#FFC4AA'],
+      [0.4, '#FF8A66'],
+      [0.6, '#FF392B'],
+      [0.8, '#B71525'],
+      [1, '	#7A0826'],
     ],
   },
   legend: {
-    layout: "vertical",
-    align: "right",
-    verticalAlign: "bottom",
+    layout: 'vertical',
+    align: 'right',
+    verticalAlign: 'bottom',
   },
   series: [
     {
-      name: "Dân số",
-      joinBy: ["hc-key", "key"],
+      name: 'Dân số',
+      joinBy: ['hc-key', 'key'],
     },
   ],
 };
@@ -43,13 +44,12 @@ const HighMaps = ({ mapData }) => {
   const [options, setOptions] = useState({});
   const [mapLoaded, setMapLoaded] = useState(false);
   const chartRef = useRef(null);
-  const [configLoaded, setConfigLoaded] = useState(false);
 
   useEffect(() => {
     if (mapData && Object.keys(mapData).length) {
       console.log({ mapData });
       const fakeData = mapData.features.map((feature, index) => ({
-        key: feature.properties["hc-key"],
+        key: feature.properties['hc-key'],
         value: index,
       }));
 
@@ -63,9 +63,9 @@ const HighMaps = ({ mapData }) => {
         ],
       }));
 
-      if (!configLoaded) setMapLoaded(true);
+      if (!mapLoaded) setMapLoaded(true);
     }
-  }, [mapData, configLoaded]);
+  }, [mapData, mapLoaded]);
 
   useEffect(() => {
     if (chartRef && chartRef.current) {
@@ -75,13 +75,13 @@ const HighMaps = ({ mapData }) => {
     }
   }, [options, mapData]);
 
-  if (!configLoaded) return null;
+  if (!mapLoaded) return null;
 
   return (
     <HighchartsReact
       highcharts={Highcharts}
       options={cloneDeep(options)}
-      constructorType={"mapChart"}
+      constructorType={'mapChart'}
       ref={chartRef}
     />
   );
